@@ -23,6 +23,10 @@
       text-align: center;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
     #app {
       position: relative;
       z-index: 1;
@@ -85,19 +89,15 @@
       top: 70px;
     }
 
-    .hidden {
-      display: none;
-    }
-
     /* ❤️ MODAL */
     #modalOverlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.65);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 10;
+      z-index: 999;
     }
 
     .modal {
@@ -107,6 +107,7 @@
       max-width: 380px;
       box-shadow: 0 0 40px rgba(255, 100, 160, 0.6);
       animation: pop 0.4s ease;
+      pointer-events: auto;
     }
 
     .modal button {
@@ -175,8 +176,6 @@
     <!-- SUCCESS CARD -->
     <div class="card hidden" id="success">
       <h1>Good choice 😌❤️</h1>
-
-      <!-- ✨ EDIT THIS MESSAGE ✨ -->
       <p>
         I know this is online,<br>
         but I meant every word.<br><br>
@@ -187,7 +186,7 @@
 
   </div>
 
-  <!-- 😈 NO MODAL -->
+  <!-- 😈 NO MODAL (HIDDEN BY DEFAULT) -->
   <div id="modalOverlay" class="hidden">
     <div class="modal">
       <h1>Nice try 😌</h1>
@@ -215,11 +214,13 @@
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
 
-    // 😤 CLICK NO
-    noBtn.addEventListener('click', () => {
+    // 😤 CLICK NO → SHOW MODAL
+    noBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       modal.classList.remove('hidden');
     });
 
+    // ✅ CLOSE MODAL
     closeModal.addEventListener('click', () => {
       modal.classList.add('hidden');
     });
