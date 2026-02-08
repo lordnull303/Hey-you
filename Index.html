@@ -14,17 +14,18 @@
     body {
       margin: 0;
       height: 100vh;
+      background: radial-gradient(circle at top, #ff7bbd, #1a001f);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       color: white;
       text-align: center;
-      transition: background 1s ease;
     }
 
-    body.blur {
-      filter: blur(6px);
+    #app {
+      position: relative;
+      z-index: 1;
     }
 
     .card {
@@ -34,8 +35,7 @@
       border-radius: 26px;
       max-width: 440px;
       box-shadow: 0 0 50px rgba(255, 100, 160, 0.45);
-      animation: pop 0.9s ease;
-      z-index: 2;
+      animation: pop 0.8s ease;
     }
 
     h1 {
@@ -89,39 +89,19 @@
       display: none;
     }
 
-    textarea {
-      width: 100%;
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 16px;
-      border: none;
-      resize: none;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    .typed-message {
-      margin-top: 20px;
-      padding: 18px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 18px;
-      font-style: italic;
-      animation: pop 0.5s ease;
-    }
-
-    /* 💌 MODAL */
-    .overlay {
+    /* ❤️ MODAL */
+    #modalOverlay {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.6);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 5;
+      z-index: 10;
     }
 
     .modal {
-      background: rgba(20, 0, 30, 0.9);
+      background: rgba(20, 0, 30, 0.95);
       padding: 35px;
       border-radius: 24px;
       max-width: 380px;
@@ -130,11 +110,13 @@
     }
 
     .modal button {
-      position: static;
       margin-top: 20px;
       background: #ff6fae;
       color: white;
+      padding: 12px 26px;
+      border-radius: 999px;
       box-shadow: 0 0 15px rgba(255, 110, 180, 0.8);
+      position: static;
     }
 
     @keyframes pop {
@@ -170,40 +152,48 @@
 
 <body>
 
-  <div class="card" id="main">
-    <h1 id="titleEmoji">Hey you 🖤</h1>
-    <p>
-      I tried to act normal.<br>
-      That failed immediately.<br><br>
-      You’ve been stuck in my head<br>
-      and I’m done pretending it’s casual.
-    </p>
+  <div id="app">
 
-    <h1>Will you be my Valentine? 💘</h1>
+    <!-- MAIN CARD -->
+    <div class="card" id="main">
+      <h1>Hey you 😈</h1>
+      <p>
+        I tried to act normal.<br>
+        That failed immediately.<br><br>
+        You’ve been stuck in my head<br>
+        and I’m done pretending it’s casual.
+      </p>
 
-    <div class="buttons">
-      <button id="yes">Yes 💖</button>
-      <button id="no">No 🙄</button>
+      <h1>Will you be my Valentine? 💘</h1>
+
+      <div class="buttons">
+        <button id="yes">Yes 💖</button>
+        <button id="no">No 🙄</button>
+      </div>
     </div>
-  </div>
 
-  <div class="card hidden" id="success">
-    <h1>Yeah… I knew it 😌❤️</h1>
-    <p>So since you said yes…</p>
+    <!-- SUCCESS CARD -->
+    <div class="card hidden" id="success">
+      <h1>Good choice 😌❤️</h1>
 
-    <textarea id="messageInput" rows="4"
-      placeholder="Type your message here... 💌"></textarea>
+      <!-- ✨ EDIT THIS MESSAGE ✨ -->
+      <p>
+        I know this is online,<br>
+        but I meant every word.<br><br>
+        You make my days better,<br>
+        and yeah… I’m really glad it’s you.
+      </p>
+    </div>
 
-    <div id="messageOutput"></div>
   </div>
 
   <!-- 😈 NO MODAL -->
-  <div class="overlay hidden" id="noModal">
+  <div id="modalOverlay" class="hidden">
     <div class="modal">
       <h1>Nice try 😌</h1>
       <p>
         That was cute and all,<br>
-        but let’s be real…<br><br>
+        but let’s be honest…<br><br>
         You don’t actually get a choice ❤️
       </p>
       <button id="closeModal">Okay fine 🙄</button>
@@ -215,40 +205,23 @@
     const yesBtn = document.getElementById('yes');
     const main = document.getElementById('main');
     const success = document.getElementById('success');
-    const messageInput = document.getElementById('messageInput');
-    const messageOutput = document.getElementById('messageOutput');
-    const titleEmoji = document.getElementById('titleEmoji');
-    const noModal = document.getElementById('noModal');
+    const modal = document.getElementById('modalOverlay');
     const closeModal = document.getElementById('closeModal');
 
-    // 🎨 UNIQUE VIBE
-    const gradients = [
-      'radial-gradient(circle at top, #ff7bbd, #1a001f)',
-      'radial-gradient(circle at top, #ff9ad5, #120015)',
-      'radial-gradient(circle at top, #ff6f91, #0e0012)',
-      'radial-gradient(circle at top, #ff85c1, #160018)'
-    ];
-    const emojis = ['🖤', '💘', '😈', '✨', '💖'];
-
-    document.body.style.background =
-      gradients[Math.floor(Math.random() * gradients.length)];
-    titleEmoji.innerText =
-      'Hey you ' + emojis[Math.floor(Math.random() * emojis.length)];
-
-    // 😈 NO DODGE
+    // 😈 NO BUTTON DODGE
     noBtn.addEventListener('mouseover', () => {
       const x = Math.random() * 260 - 130;
       const y = Math.random() * 140 - 70;
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
 
-    // 😤 IF CLICKED
+    // 😤 CLICK NO
     noBtn.addEventListener('click', () => {
-      noModal.classList.remove('hidden');
+      modal.classList.remove('hidden');
     });
 
     closeModal.addEventListener('click', () => {
-      noModal.classList.add('hidden');
+      modal.classList.add('hidden');
     });
 
     // 💖 YES
@@ -258,18 +231,10 @@
       for (let i = 0; i < 25; i++) createHeart();
     });
 
-    messageInput.addEventListener('input', () => {
-      messageOutput.innerHTML = `
-        <div class="typed-message">
-          ${messageInput.value.replace(/\n/g, '<br>')}
-        </div>
-      `;
-    });
-
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
-      heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+      heart.innerHTML = '❤️';
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.bottom = '-20px';
       document.body.appendChild(heart);
