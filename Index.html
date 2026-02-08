@@ -1,251 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For You ❤️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Hey You ❤️</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-    body {
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-      background: black;
-      color: white;
-    }
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #ff9acb, #160016);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
 
-    .page {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1s ease;
-    }
+/* ---------- COMMON ---------- */
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+}
 
-    .page.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
+.screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.6s ease;
+}
 
-    .bg-gif {
-      position: absolute;
-      inset: 0;
-      background-image: url("PASTE_YOUR_GIF_URL_HERE");
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.55) blur(1px);
-      z-index: -1;
-    }
+.card {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 35px;
+  width: 340px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255,105,180,0.4);
+}
 
-    .card {
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(16px);
-      padding: 50px;
-      border-radius: 28px;
-      max-width: 460px;
-      text-align: center;
-      box-shadow: 0 0 60px rgba(255, 120, 180, 0.4);
-      animation: pop 1s ease;
-    }
+/* ---------- INTRO ---------- */
+#intro h1 {
+  font-size: 26px;
+}
 
-    h1 {
-      margin-top: 0;
-      font-size: 2.4rem;
-    }
+#intro button {
+  margin-top: 20px;
+}
 
-    p {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      opacity: 0.95;
-    }
+/* ---------- BUTTONS ---------- */
+button {
+  padding: 12px 22px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
 
-    button {
-      margin-top: 30px;
-      padding: 14px 36px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 999px;
-      background: #ff6fae;
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(255, 110, 180, 0.9);
-      transition: transform 0.3s ease;
-    }
+button:hover {
+  transform: scale(1.05);
+}
 
-    button:hover {
-      transform: scale(1.1);
-    }
+.yes {
+  background: hotpink;
+  color: white;
+}
 
-    .buttons {
-      position: relative;
-      height: 120px;
-      margin-top: 30px;
-    }
+.no {
+  background: #444;
+  color: white;
+}
 
-    #no {
-      background: transparent;
-      border: 2px solid #ffd6ea;
-      color: #ffd6ea;
-      position: absolute;
-      right: 10%;
-      top: 60px;
-    }
+/* ---------- QUESTION ---------- */
+.buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-around;
+}
 
-    .hidden {
-      display: none;
-    }
+/* ---------- OVERLAYS ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  z-index: 10;
+}
 
-    /* modal */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
+.popup {
+  background: white;
+  color: #222;
+  border-radius: 22px;
+  padding: 30px;
+  width: 320px;
+  text-align: center;
+  animation: pop 0.4s ease;
+}
 
-    .modal {
-      background: rgba(20,0,30,0.95);
-      padding: 40px;
-      border-radius: 26px;
-      text-align: center;
-      box-shadow: 0 0 40px rgba(255,100,160,0.6);
-    }
+@keyframes pop {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
 
-    @keyframes pop {
-      from { transform: scale(0.7); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
+/* ---------- FLOATING HEARTS ---------- */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  animation: float 6s linear infinite;
+  opacity: 0.7;
+}
 
-    .heart {
-      position: absolute;
-      font-size: 22px;
-      animation: floatUp 4s linear forwards;
-      pointer-events: none;
-    }
-
-    @keyframes floatUp {
-      from { transform: translateY(0); opacity: 1; }
-      to { transform: translateY(-120vh); opacity: 0; }
-    }
-  </style>
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-120vh); }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- PAGE 1 -->
-  <div class="page active" id="page1">
-    <div class="bg-gif"></div>
-    <div class="card">
-      <h1>Hey… 💫</h1>
-      <p>
-        I made this just for you.<br><br>
-        Take a second.<br>
-        Breathe.<br>
-        Then click continue.
-      </p>
-      <button onclick="goTo(2)">Continue ✨</button>
+<!-- INTRO SCREEN -->
+<div class="screen" id="intro">
+  <div class="card">
+    <h1>Hey… 👀</h1>
+    <p>I made something for you.</p>
+    <button class="yes" id="startBtn">Click me 💖</button>
+  </div>
+</div>
+
+<!-- QUESTION SCREEN -->
+<div class="screen hidden" id="question">
+  <div class="card">
+    <h1 id="questionText"></h1>
+    <p>So… will you be my Valentine? 💘</p>
+
+    <div class="buttons">
+      <button class="yes" id="yesBtn">Yes 💕</button>
+      <button class="no" id="noBtn">No 🙄</button>
     </div>
   </div>
+</div>
 
-  <!-- PAGE 2 -->
-  <div class="page" id="page2">
-    <div class="bg-gif"></div>
-    <div class="card">
-      <h1>Important question 😌</h1>
-      <p>
-        I tried to keep this casual.<br>
-        That failed.<br><br>
-        So let me just ask you properly.
-      </p>
-
-      <h1>Will you be my Valentine? 💖</h1>
-
-      <div class="buttons">
-        <button onclick="yes()">Yes 💘</button>
-        <button id="no">No 🙄</button>
-      </div>
-    </div>
+<!-- YES OVERLAY -->
+<div class="overlay hidden" id="yesOverlay">
+  <div class="popup">
+    <h2>Good 😌❤️</h2>
+    <p>
+      <!-- ✏️ WRITE YOUR MESSAGE HERE -->
+      I wanted you to know that you mean a lot to me.
+      I’m really glad I met you, and yeah… I’m happy you’re my Valentine 💖
+    </p>
   </div>
+</div>
 
-  <!-- PAGE 3 -->
-  <div class="page" id="page3">
-    <div class="bg-gif"></div>
-    <div class="card">
-      <h1>Good choice 😌❤️</h1>
-
-      <!-- ✨ YOUR MESSAGE ✨ -->
-      <p>
-        I know this is online,<br>
-        but I meant every word.<br><br>
-        You make my days better,<br>
-        and I’m really glad it’s you.
-      </p>
-
-      <p style="opacity:0.8;">
-        Now come tell me what you thought 💬
-      </p>
-    </div>
+<!-- NO OVERLAY -->
+<div class="overlay hidden" id="noOverlay">
+  <div class="popup">
+    <h2>Nice try 😏</h2>
+    <p>You didn’t actually have a choice.</p>
+    <button class="yes" id="fineBtn">Okay fine 💘</button>
   </div>
+</div>
 
-  <!-- NO MODAL -->
-  <div class="overlay hidden" id="noModal">
-    <div class="modal">
-      <h1>Nice try 😌</h1>
-      <p>You don’t actually get a choice ❤️</p>
-      <button onclick="closeModal()">Okay fine 🙄</button>
-    </div>
-  </div>
+<script>
+/* ---------- RANDOMNESS ---------- */
+const intros = [
+  "Hey you 😌",
+  "Okay listen…",
+  "So um… hi 💕",
+  "I have a question 👀"
+];
+document.getElementById("questionText").innerText =
+  intros[Math.floor(Math.random() * intros.length)];
 
-  <script>
-    const pages = document.querySelectorAll('.page');
-    const noBtn = document.getElementById('no');
-    const modal = document.getElementById('noModal');
+/* ---------- SCREENS ---------- */
+const intro = document.getElementById("intro");
+const question = document.getElementById("question");
 
-    function goTo(n) {
-      pages.forEach(p => p.classList.remove('active'));
-      document.getElementById('page' + n).classList.add('active');
-    }
+/* ---------- OVERLAYS ---------- */
+const yesOverlay = document.getElementById("yesOverlay");
+const noOverlay = document.getElementById("noOverlay");
 
-    function yes() {
-      goTo(3);
-      for (let i = 0; i < 25; i++) createHeart();
-    }
+/* ---------- BUTTONS ---------- */
+document.getElementById("startBtn").onclick = () => {
+  intro.classList.add("hidden");
+  question.classList.remove("hidden");
+};
 
-    noBtn.addEventListener('mouseover', () => {
-      const x = Math.random() * 260 - 130;
-      const y = Math.random() * 120 - 60;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    });
+document.getElementById("yesBtn").onclick = () => {
+  yesOverlay.classList.remove("hidden");
+};
 
-    noBtn.addEventListener('click', () => {
-      modal.classList.remove('hidden');
-    });
+document.getElementById("noBtn").onclick = () => {
+  noOverlay.classList.remove("hidden");
+};
 
-    function closeModal() {
-      modal.classList.add('hidden');
-    }
+document.getElementById("fineBtn").onclick = () => {
+  noOverlay.classList.add("hidden");
+  yesOverlay.classList.remove("hidden");
+};
 
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.innerHTML = '❤️';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.bottom = '-20px';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 4000);
-    }
-  </script>
+/* ---------- HEART SPAWNER ---------- */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = Math.random() > 0.5 ? "💖" : "✨";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 7000);
+}, 400);
+</script>
 
 </body>
 </html>
