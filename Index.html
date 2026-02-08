@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Hey You ❤️</title>
+  <meta charset="UTF-8">
+  <title>For You ❤️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -14,121 +14,117 @@
     body {
       margin: 0;
       height: 100vh;
-      background: radial-gradient(circle at top, #ff7bbd, #1a001f);
+      overflow: hidden;
+      background: black;
+      color: white;
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      color: white;
-      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
     }
 
-    .hidden {
-      display: none !important;
+    .page.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    #app {
-      position: relative;
-      z-index: 1;
+    .bg-gif {
+      position: absolute;
+      inset: 0;
+      background-image: url("PASTE_YOUR_GIF_URL_HERE");
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.55) blur(1px);
+      z-index: -1;
     }
 
     .card {
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(14px);
-      padding: 40px;
-      border-radius: 26px;
-      max-width: 440px;
-      box-shadow: 0 0 50px rgba(255, 100, 160, 0.45);
-      animation: pop 0.8s ease;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(16px);
+      padding: 50px;
+      border-radius: 28px;
+      max-width: 460px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(255, 120, 180, 0.4);
+      animation: pop 1s ease;
     }
 
     h1 {
       margin-top: 0;
-      font-size: 2.2rem;
+      font-size: 2.4rem;
     }
 
     p {
-      font-size: 1.05rem;
-      line-height: 1.6;
+      font-size: 1.1rem;
+      line-height: 1.7;
       opacity: 0.95;
     }
 
-    .buttons {
-      margin-top: 30px;
-      position: relative;
-      height: 130px;
-    }
-
     button {
-      padding: 14px 30px;
+      margin-top: 30px;
+      padding: 14px 36px;
       font-size: 1rem;
       border: none;
       border-radius: 999px;
-      cursor: pointer;
-      transition: 0.3s ease;
-      position: absolute;
-    }
-
-    #yes {
       background: #ff6fae;
       color: white;
-      left: 50%;
-      transform: translateX(-50%);
+      cursor: pointer;
       box-shadow: 0 0 20px rgba(255, 110, 180, 0.9);
+      transition: transform 0.3s ease;
     }
 
-    #yes:hover {
-      transform: translateX(-50%) scale(1.12);
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .buttons {
+      position: relative;
+      height: 120px;
+      margin-top: 30px;
     }
 
     #no {
       background: transparent;
-      color: #ffd6ea;
       border: 2px solid #ffd6ea;
-      right: 8%;
-      top: 70px;
+      color: #ffd6ea;
+      position: absolute;
+      right: 10%;
+      top: 60px;
     }
 
-    /* ❤️ MODAL */
-    #modalOverlay {
+    .hidden {
+      display: none;
+    }
+
+    /* modal */
+    .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.65);
+      background: rgba(0,0,0,0.7);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      z-index: 10;
     }
 
     .modal {
-      background: rgba(20, 0, 30, 0.95);
-      padding: 35px;
-      border-radius: 24px;
-      max-width: 380px;
-      box-shadow: 0 0 40px rgba(255, 100, 160, 0.6);
-      animation: pop 0.4s ease;
-      pointer-events: auto;
-    }
-
-    .modal button {
-      margin-top: 20px;
-      background: #ff6fae;
-      color: white;
-      padding: 12px 26px;
-      border-radius: 999px;
-      box-shadow: 0 0 15px rgba(255, 110, 180, 0.8);
-      position: static;
+      background: rgba(20,0,30,0.95);
+      padding: 40px;
+      border-radius: 26px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(255,100,160,0.6);
     }
 
     @keyframes pop {
-      from {
-        transform: scale(0.7);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     .heart {
@@ -139,102 +135,110 @@
     }
 
     @keyframes floatUp {
-      from {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-120vh) scale(1.6);
-        opacity: 0;
-      }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-120vh); opacity: 0; }
     }
   </style>
 </head>
 
 <body>
 
-  <div id="app">
-
-    <!-- MAIN CARD -->
-    <div class="card" id="main">
-      <h1>Hey you 😈</h1>
+  <!-- PAGE 1 -->
+  <div class="page active" id="page1">
+    <div class="bg-gif"></div>
+    <div class="card">
+      <h1>Hey… 💫</h1>
       <p>
-        I tried to act normal.<br>
-        That failed immediately.<br><br>
-        You’ve been stuck in my head<br>
-        and I’m done pretending it’s casual.
+        I made this just for you.<br><br>
+        Take a second.<br>
+        Breathe.<br>
+        Then click continue.
+      </p>
+      <button onclick="goTo(2)">Continue ✨</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="page2">
+    <div class="bg-gif"></div>
+    <div class="card">
+      <h1>Important question 😌</h1>
+      <p>
+        I tried to keep this casual.<br>
+        That failed.<br><br>
+        So let me just ask you properly.
       </p>
 
-      <h1>Will you be my Valentine? 💘</h1>
+      <h1>Will you be my Valentine? 💖</h1>
 
       <div class="buttons">
-        <button id="yes">Yes 💖</button>
+        <button onclick="yes()">Yes 💘</button>
         <button id="no">No 🙄</button>
       </div>
     </div>
+  </div>
 
-    <!-- SUCCESS CARD -->
-    <div class="card hidden" id="success">
+  <!-- PAGE 3 -->
+  <div class="page" id="page3">
+    <div class="bg-gif"></div>
+    <div class="card">
       <h1>Good choice 😌❤️</h1>
+
+      <!-- ✨ YOUR MESSAGE ✨ -->
       <p>
         I know this is online,<br>
         but I meant every word.<br><br>
         You make my days better,<br>
-        and yeah… I’m really glad it’s you.
+        and I’m really glad it’s you.
+      </p>
+
+      <p style="opacity:0.8;">
+        Now come tell me what you thought 💬
       </p>
     </div>
-
   </div>
 
-  <!-- 😈 NO MODAL (HIDDEN BY DEFAULT) -->
-  <div id="modalOverlay" class="hidden">
+  <!-- NO MODAL -->
+  <div class="overlay hidden" id="noModal">
     <div class="modal">
       <h1>Nice try 😌</h1>
-      <p>
-        That was cute and all,<br>
-        but let’s be honest…<br><br>
-        You don’t actually get a choice ❤️
-      </p>
-      <button id="closeModal">Okay fine 🙄</button>
+      <p>You don’t actually get a choice ❤️</p>
+      <button onclick="closeModal()">Okay fine 🙄</button>
     </div>
   </div>
 
   <script>
+    const pages = document.querySelectorAll('.page');
     const noBtn = document.getElementById('no');
-    const yesBtn = document.getElementById('yes');
-    const main = document.getElementById('main');
-    const success = document.getElementById('success');
-    const modal = document.getElementById('modalOverlay');
-    const closeModal = document.getElementById('closeModal');
+    const modal = document.getElementById('noModal');
 
-    // 😈 NO BUTTON DODGE
+    function goTo(n) {
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + n).classList.add('active');
+    }
+
+    function yes() {
+      goTo(3);
+      for (let i = 0; i < 25; i++) createHeart();
+    }
+
     noBtn.addEventListener('mouseover', () => {
       const x = Math.random() * 260 - 130;
-      const y = Math.random() * 140 - 70;
+      const y = Math.random() * 120 - 60;
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
 
-    // 😤 CLICK NO → SHOW MODAL
-    noBtn.addEventListener('click', (e) => {
-      e.preventDefault();
+    noBtn.addEventListener('click', () => {
       modal.classList.remove('hidden');
     });
 
-    // ✅ CLOSE MODAL
-    closeModal.addEventListener('click', () => {
+    function closeModal() {
       modal.classList.add('hidden');
-    });
-
-    // 💖 YES
-    yesBtn.addEventListener('click', () => {
-      main.classList.add('hidden');
-      success.classList.remove('hidden');
-      for (let i = 0; i < 25; i++) createHeart();
-    });
+    }
 
     function createHeart() {
       const heart = document.createElement('div');
-      heart.classList.add('heart');
+      heart.className = 'heart';
       heart.innerHTML = '❤️';
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.bottom = '-20px';
