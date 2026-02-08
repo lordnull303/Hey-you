@@ -23,6 +23,10 @@
       transition: background 1s ease;
     }
 
+    body.blur {
+      filter: blur(6px);
+    }
+
     .card {
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(14px);
@@ -31,6 +35,7 @@
       max-width: 440px;
       box-shadow: 0 0 50px rgba(255, 100, 160, 0.45);
       animation: pop 0.9s ease;
+      z-index: 2;
     }
 
     h1 {
@@ -104,6 +109,34 @@
       animation: pop 0.5s ease;
     }
 
+    /* 💌 MODAL */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .modal {
+      background: rgba(20, 0, 30, 0.9);
+      padding: 35px;
+      border-radius: 24px;
+      max-width: 380px;
+      box-shadow: 0 0 40px rgba(255, 100, 160, 0.6);
+      animation: pop 0.4s ease;
+    }
+
+    .modal button {
+      position: static;
+      margin-top: 20px;
+      background: #ff6fae;
+      color: white;
+      box-shadow: 0 0 15px rgba(255, 110, 180, 0.8);
+    }
+
     @keyframes pop {
       from {
         transform: scale(0.7);
@@ -156,15 +189,25 @@
 
   <div class="card hidden" id="success">
     <h1>Yeah… I knew it 😌❤️</h1>
-    <p>
-      Since you said yes,<br>
-      I have something to tell you.
-    </p>
+    <p>So since you said yes…</p>
 
     <textarea id="messageInput" rows="4"
       placeholder="Type your message here... 💌"></textarea>
 
     <div id="messageOutput"></div>
+  </div>
+
+  <!-- 😈 NO MODAL -->
+  <div class="overlay hidden" id="noModal">
+    <div class="modal">
+      <h1>Nice try 😌</h1>
+      <p>
+        That was cute and all,<br>
+        but let’s be real…<br><br>
+        You don’t actually get a choice ❤️
+      </p>
+      <button id="closeModal">Okay fine 🙄</button>
+    </div>
   </div>
 
   <script>
@@ -175,8 +218,10 @@
     const messageInput = document.getElementById('messageInput');
     const messageOutput = document.getElementById('messageOutput');
     const titleEmoji = document.getElementById('titleEmoji');
+    const noModal = document.getElementById('noModal');
+    const closeModal = document.getElementById('closeModal');
 
-    // 🎨 RANDOMIZE VIBE (unique every load)
+    // 🎨 UNIQUE VIBE
     const gradients = [
       'radial-gradient(circle at top, #ff7bbd, #1a001f)',
       'radial-gradient(circle at top, #ff9ad5, #120015)',
@@ -190,29 +235,29 @@
     titleEmoji.innerText =
       'Hey you ' + emojis[Math.floor(Math.random() * emojis.length)];
 
-    // 😈 NO BUTTON DODGE
+    // 😈 NO DODGE
     noBtn.addEventListener('mouseover', () => {
       const x = Math.random() * 260 - 130;
       const y = Math.random() * 140 - 70;
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
 
-    // 😤 IF SHE ACTUALLY CLICKS NO
+    // 😤 IF CLICKED
     noBtn.addEventListener('click', () => {
-      alert("Nice try 😌\nYou don’t really have a choice here.");
+      noModal.classList.remove('hidden');
     });
 
-    // 💖 YES BUTTON
+    closeModal.addEventListener('click', () => {
+      noModal.classList.add('hidden');
+    });
+
+    // 💖 YES
     yesBtn.addEventListener('click', () => {
       main.classList.add('hidden');
       success.classList.remove('hidden');
-
-      for (let i = 0; i < 30; i++) {
-        createHeart();
-      }
+      for (let i = 0; i < 25; i++) createHeart();
     });
 
-    // 💌 LIVE MESSAGE DISPLAY
     messageInput.addEventListener('input', () => {
       messageOutput.innerHTML = `
         <div class="typed-message">
@@ -228,7 +273,6 @@
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.bottom = '-20px';
       document.body.appendChild(heart);
-
       setTimeout(() => heart.remove(), 4000);
     }
   </script>
